@@ -28,6 +28,7 @@ namespace LockPatron
         Title = "Lock-Patron",
         Version = "v1"
       }));
+      services.AddHealthChecks().AddDbContextCheck<ForecastContext>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,12 +45,16 @@ namespace LockPatron
 
       app.UseAuthorization();
 
-      app.UseSwagger();
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapHealthChecks("/health");
+        endpoints.MapSwagger();
+        endpoints.MapControllers();
+      });
+
       app.UseSwaggerUI(c =>
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lock Patron V1")
       );
-
-      app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
     }
   }
 }
