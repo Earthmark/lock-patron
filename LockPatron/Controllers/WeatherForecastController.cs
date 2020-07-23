@@ -35,7 +35,6 @@ namespace LockPatron.Controllers
     [HttpPost]
     public async Task<WeatherForecast> Post()
     {
-      _logger.LogTrace("Adding new forecast.");
       var rng = new Random();
       var entity = new WeatherForecast
       {
