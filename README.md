@@ -21,3 +21,5 @@ Favor is how liked a User is by a Patron, this may be rapidly changing based on 
 
 ## Technical Requirements
 The server needs to respond to some environmental behaviors including replication (multiple servers running over the same database).
+
+![.NET Core](https://github.com/Earthmark/lock-patron/workflows/.NET%20Core/badge.svg)
