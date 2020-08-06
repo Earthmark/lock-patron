@@ -1,15 +1,14 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using LockPatron.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace LockPatron.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("/")]
   public class WeatherForecastController : ControllerBase
   {
     private static readonly string[] Summaries =
@@ -26,10 +25,16 @@ namespace LockPatron.Controllers
       _ctx = ctx;
     }
 
-    [HttpGet]
-    public IQueryable<WeatherForecast> Get([FromQuery, Range(0, 50)] int count)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<WeatherForecast>> Get(int id)
     {
-      return _ctx.Forecasts.Take(count);
+      var forecast = await _ctx.Forecasts.SingleOrDefaultAsync(s => s.Key == id);
+      if (forecast == null)
+      {
+        return NotFound(id);
+      }
+
+      return Ok(forecast); 
     }
 
     [HttpPost]
